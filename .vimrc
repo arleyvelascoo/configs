@@ -10,71 +10,63 @@ set showmatch
 set sw=2
 set relativenumber
 set laststatus=2
+set t_Co=256
+set cursorline
 set noshowmode
-
+set splitright
 
 call plug#begin('~/.vim/plugged')
-" test
-Plug 'tyewang/vimux-jest-test'
-Plug 'janko-m/vim-test'
-"Syntax
-Plug 'sheerun/vim-polyglot'
 
-"Status Bar
+" Status bar
 Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/lightline.vim'
 
-" typing
+" syntax
+Plug 'sheerun/vim-polyglot'
+
+" Theme
+Plug 'morhetz/gruvbox'
+Plug 'shinchu/lightline-gruvbox.vim'
+Plug 'tomasr/molokai'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+
+"tmux
+Plug 'benmills/vimux'
+Plug 'christoomey/vim-tmux-navigator'
+
+"Typing
 Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 
-" Themes
-Plug 'morhetz/gruvbox'
-Plug 'shinchu/lightline-gruvbox.vim'
-
-" IDE
-Plug 'christoomey/vim-tmux-navigator'
-
-" EasyMotion
-Plug 'easymotion/vim-easymotion'
-"NerdTree
-Plug 'scrooloose/nerdtree'
-
-"Code of Conquer
+"Autocomplete
+Plug 'sirver/ultisnips'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"AutoCOmplete
-"Plug 'sirver/ultisnips'
 
-"Indent
-Plug 'yggdroot/indentline'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"IDE
+Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdtree'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'mhinz/vim-signify'
+Plug 'yggdroot/indentline'
 Plug 'scrooloose/nerdcommenter'
 
-"Java Highlighting
-Plug 'uiiaoo/java-syntax.vim'
+"git
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
-
-"let g:lsc_server_commands = {'java': '<path-to-java-language-server>/java-language-server/dist/lang_server_{linux|mac|windows}.sh'}
-
-"Disable java highlighting
-highlight link javaIdentifier NONE
-highlight link javaDelimiter NONE
-
-"let g:gruvbox_contrast_dark = "hard"
 colorscheme gruvbox
+
+let g:gruvbox_contrast_dark = "hard"
 
 
 let NERDTreeQuitOnOpen=1
-"Tecla lider
-let mapleader = " "
+
+" Maps
+let mapleader=" "
 
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NERDTreeFind<CR>
@@ -84,26 +76,82 @@ nmap <Leader>q :q<CR>
 
 nmap <Leader>// :noh<CR>
 
-nmap <Leader>fs :Files<CR>
+"Split resize
+nnoremap <Leader>> 10<C-w>>
+nnoremap <Leader>< 10<C-w><
 
-" For tabs
-nmap <Leader>n :tabn<CR>
-nmap <Leader>p :tabp<CR>
+"Plugs 
+map <Leader>fs :Files<CR>
 
-" Resize split window
-nmap <C-y> :vertical resize -5<CR>
-nmap <C-p> :vertical resize +5<CR>
-nmap <C-u> :res -5<CR>
-nmap <C-i> :res +5<CR>
-
-
-" -------------------- COC
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gy <Plug>(coc-type-definition)
+" tabs navigation
+map <Leader>h :tabprevious<cr>
+map <Leader>l :tabnext<cr>
 
 nmap <Leader>rnm <Plug>(coc-rename)
+
+
+let g:UltiSnipsSnippetDirectories=[$HOME.'/configs/.vim/UltiSnips']
+let g:UltiSnipsExpandTrigger="<C-s>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=1
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 
 " Use K to show documentation in preview window.
@@ -119,29 +167,10 @@ function! s:show_documentation()
   endif
 endfunction
 
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><C-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Formatting selected code.
+xmap <Leader>f  <Plug>(coc-format-selected)
+nmap <Leader>f  <Plug>(coc-format-selected)
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
