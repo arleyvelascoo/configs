@@ -55,6 +55,7 @@ Plug 'scrooloose/nerdcommenter'
 
 "git
 Plug 'tpope/vim-fugitive'
+Plug 'stsewd/fzf-checkout.vim'
 
 call plug#end()
 
@@ -89,6 +90,8 @@ map <Leader>l :tabnext<cr>
 
 nmap <Leader>rnm <Plug>(coc-rename)
 
+nmap <Leader>g :G<CR>
+nmap <Leader>gc :GCheckout<CR>
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/configs/.vim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<C-s>"
