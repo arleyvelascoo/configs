@@ -40,7 +40,7 @@ Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-surround'
 
 "Autocomplete
-Plug 'sirver/ultisnips'
+"Plug 'sirver/ultisnips'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 
@@ -54,8 +54,11 @@ Plug 'yggdroot/indentline'
 Plug 'scrooloose/nerdcommenter'
 
 "git
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 Plug 'stsewd/fzf-checkout.vim'
+
+
+Plug 'uiiaoo/java-syntax.vim'
 
 call plug#end()
 
@@ -66,6 +69,7 @@ let g:gruvbox_contrast_dark = "hard"
 
 let NERDTreeQuitOnOpen=1
 
+highlight link javaIdentifier NONE
 " Maps
 let mapleader=" "
 
@@ -91,7 +95,7 @@ map <Leader>l :tabnext<cr>
 nmap <Leader>rnm <Plug>(coc-rename)
 
 nmap <Leader>g :G<CR>
-nmap <Leader>gc :GCheckout<CR>
+nmap <Leader>gc :GBranches<CR>
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/configs/.vim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<C-s>"
@@ -151,10 +155,10 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
 
 
 " Use K to show documentation in preview window.
@@ -177,3 +181,5 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 xmap <Leader>f  <Plug>(coc-format-selected)
 nmap <Leader>f  <Plug>(coc-format-selected)
 
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
