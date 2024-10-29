@@ -22,7 +22,7 @@ Plug 'maximbaz/lightline-ale'
 Plug 'itchyny/lightline.vim'
 
 " syntax
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot'
 
 " Theme
 Plug 'morhetz/gruvbox'
@@ -43,7 +43,6 @@ Plug 'tpope/vim-surround'
 "Plug 'sirver/ultisnips'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-
 "IDE
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
@@ -52,6 +51,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-signify'
 Plug 'yggdroot/indentline'
 Plug 'scrooloose/nerdcommenter'
+Plug 'ryanoasis/vim-devicons'
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 "git
 Plug 'tpope/vim-fugitive'
@@ -84,6 +85,9 @@ nmap <Leader>// :noh<CR>
 "Split resize
 nnoremap <Leader>> 10<C-w>>
 nnoremap <Leader>< 10<C-w><
+noremap <Leader>th :botright new <Bar> :terminal<cr>
+noremap <Leader>tv :botright vnew <Bar> :terminal<cr>
+noremap <Leader>tt :tabnew +term<cr>
 
 "Plugs 
 map <Leader>fs :Files<CR>
@@ -99,8 +103,8 @@ nmap <Leader>gc :GBranches<CR>
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/configs/.vim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<C-s>"
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 
 " TextEdit might fail if hidden is not set.
 set hidden
